@@ -1,0 +1,50 @@
+version: '3.8'
+
+networks:
+  my_network:
+
+services:
+  app:
+    container_name: adonisjs_api_basic
+    restart: always
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    deploy:
+      resources:
+        limits:
+          cpus: '0.3'
+          memory: 512M
+    env_file:
+      - .env
+    ports:
+      - 8000:8000
+    networks:
+      - my_network
+  worker:
+    container_name: adonisjs_api_basic_worker
+    restart: always
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    deploy:
+      resources:
+        limits:
+          cpus: '0.3'
+          memory: 256M
+    env_file:
+      - .env
+    environment:
+      - SUPERVISOR_START=1
+    networks:
+      - my_network
+  mysql:
+    image: mysql:latest
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: adonisjs_api_basic
+    networks:
+      - my_network
