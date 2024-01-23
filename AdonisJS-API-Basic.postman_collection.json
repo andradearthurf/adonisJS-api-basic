@@ -36,11 +36,21 @@
 		{
 			"name": "Login",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "MQ.K9T9_P2-metRGtO3ybd3_8HRhqFVRQIpq8wmWYa_APbeLRGscm5WQ4TYTRcx",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"example@gmail.com\",\n    \"password\": \"12345\",\n    \"name\": \"Example\"\n}",
+					"raw": "{\n    \"email\": \"example@gmail.com\",\n    \"password\": \"12345\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -48,13 +58,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseURL}}/api/register",
+					"raw": "{{baseURL}}/api/login",
 					"host": [
 						"{{baseURL}}"
 					],
 					"path": [
 						"api",
-						"register"
+						"login"
 					]
 				}
 			},
@@ -64,21 +74,11 @@
 			"name": "Todo Index",
 			"request": {
 				"auth": {
-					"type": "apikey",
-					"apikey": [
+					"type": "bearer",
+					"bearer": [
 						{
-							"key": "value",
-							"value": "",
-							"type": "string"
-						},
-						{
-							"key": "key",
-							"value": "",
-							"type": "string"
-						},
-						{
-							"key": "in",
-							"value": "header",
+							"key": "token",
+							"value": "Ng.QISL2tv0EmCttyoJi1Nnux44M5fWEmwdP_Orz9US8h0cPGzYn_Tnbpi7S5n_",
 							"type": "string"
 						}
 					]
@@ -109,7 +109,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "Mg.DXqa3-DFCr0gVEybnmbfveT8NZIdoSvLjQlZiqtxOhiCYpNo8dZiOEAKi81h",
+							"value": "Ng.QISL2tv0EmCttyoJi1Nnux44M5fWEmwdP_Orz9US8h0cPGzYn_Tnbpi7S5n_",
 							"type": "string"
 						}
 					]
@@ -147,7 +147,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "Mg.DXqa3-DFCr0gVEybnmbfveT8NZIdoSvLjQlZiqtxOhiCYpNo8dZiOEAKi81h",
+							"value": "Ng.QISL2tv0EmCttyoJi1Nnux44M5fWEmwdP_Orz9US8h0cPGzYn_Tnbpi7S5n_",
 							"type": "string"
 						}
 					]
@@ -156,7 +156,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"Example 1\",\n    \"desc\": \"Todo Example 1\",\n    \"done\": 1   \n}",
+					"raw": "{\n    \"title\": \"Example 6\",\n    \"desc\": \"Todo Example 1\",\n    \"done\": 1   \n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -164,14 +164,15 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseURL}}/api/todos/update",
+					"raw": "{{baseURL}}/api/todos/update/1",
 					"host": [
 						"{{baseURL}}"
 					],
 					"path": [
 						"api",
 						"todos",
-						"update"
+						"update",
+						"1"
 					]
 				}
 			},
@@ -185,7 +186,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "Mg.DXqa3-DFCr0gVEybnmbfveT8NZIdoSvLjQlZiqtxOhiCYpNo8dZiOEAKi81h",
+							"value": "Ng.QISL2tv0EmCttyoJi1Nnux44M5fWEmwdP_Orz9US8h0cPGzYn_Tnbpi7S5n_",
 							"type": "string"
 						}
 					]
@@ -194,7 +195,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"example@gmail.com\",\n    \"password\": \"12345\",\n    \"name\": \"Example\"\n}",
+					"raw": "{\n    \"title\": \"Example 7\",\n    \"desc\": \"Todo Example 1\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -209,6 +210,35 @@
 					"path": [
 						"api",
 						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Todo Destroy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Ng.QISL2tv0EmCttyoJi1Nnux44M5fWEmwdP_Orz9US8h0cPGzYn_Tnbpi7S5n_",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/todos/1",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"todos",
+						"1"
 					]
 				}
 			},
