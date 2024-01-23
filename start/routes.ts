@@ -33,5 +33,6 @@ Route.group(() => {
     Route.get('todos/:id', 'TodosController.show')
     Route.put('todos/update/:id', 'TodosController.update')
     Route.post('todos', 'TodosController.store')
+    Route.delete('todos/:id', 'TodosController.destroy')
   }).middleware('auth:api')
 }).prefix('api')
