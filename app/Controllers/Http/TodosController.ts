@@ -1,17 +1,29 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Todo from 'App/Models/Todo'
+import TodoService from 'App/Service/TodoService'
 
 export default class TodosController {
+  private todoService: TodoService
+
+  constructor() {
+    this.todoService = new TodoService()
+  }
+
   public async index({}: HttpContextContract) {
-    const todos = await Todo.query()
-    return todos
+    const todos = await this.todoService.all()
+
+    const data = todos.getData()
+
+    return data
   }
 
   public async show({ params }: HttpContextContract) {
     try {
-      const todo = await Todo.find(params.id)
-      if (todo) {
-        return todo
+      const todo = await this.todoService.find(params.id)
+
+      const todoData = todo.getData()
+
+      if (todoData) {
+        return todoData
       }
     } catch (error) {
       console.log(error)
@@ -19,13 +31,16 @@ export default class TodosController {
   }
 
   public async update({ request, params }: HttpContextContract) {
-    const todo = await Todo.find(params.id)
-    if (todo) {
-      todo.title = request.input('title')
-      todo.desc = request.input('desc')
-      todo.done = request.input('done')
+    const todo = await this.todoService.find(params.id)
 
-      if (await todo.save()) {
+    const todoData = todo.getData()
+
+    if (todo) {
+      todoData.title = request.input('title')
+      todoData.desc = request.input('desc')
+      todoData.done = request.input('done')
+
+      if (await todoData.save()) {
         return todo
       }
       return // status code: 422
@@ -35,16 +50,21 @@ export default class TodosController {
 
   public async store({ auth, request }: HttpContextContract) {
     const user = await auth.authenticate()
-    const todo = new Todo()
-    todo.title = request.input('title')
-    todo.desc = request.input('desc')
-    await todo.save()
-    return todo
+
+    const requestData = request.all()
+
+    const newTodo = await this.todoService.createTodo(requestData)
+
+    return newTodo
   }
 
   public async destroy({ response, auth, params }: HttpContextContract) {
     const user = await auth.authenticate()
-    const todo = await Todo.query().where('id', params.id).delete()
+
+    const { id } = params
+
+    const message = await this.todoService.delete(id)
+
     return response.json({ message: 'Deleted successfully' })
   }
 }
